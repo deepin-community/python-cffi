@@ -383,6 +383,18 @@ argument and may mutate it!):
 
     assert lib.strlen("hello") == 5
 
+(Note that there is no guarantee that the ``char *`` passed to the
+function remains valid after the call is done.  Similarly, if you write
+``lib.f(x); lib.f(x)`` where ``x`` is a variable containing a byte string,
+the two calls to ``f()`` could sometimes receive different ``char *``
+pointers, with each of them only valid during the corresponding call.  This is
+important notably for PyPy which uses many optimizations tweaking the data
+underlying a byte string object.  CFFI will not make and free a copy of
+the whole string at *every* call---it usually won't---but you *cannot*
+write code that relies on it: there are cases were that would break.
+If you need a pointer to remain valid, you need to make one explicitly,
+for example with ``ptr = ffi.new("char[]", x)``.)
+
 You can also pass unicode strings as ``wchar_t *`` or ``char16_t *`` or
 ``char32_t *`` arguments.  Note that
 the C language makes no difference between argument declarations that
@@ -787,7 +799,7 @@ The ``extern "Python"`` functions cannot be variadic for now.  This
 may be implemented in the future.  (`This demo`__ shows how to do it
 anyway, but it is a bit lengthy.)
 
-.. __: https://foss.heptapod.net/pypy/cffi/-/blob/branch/default/demo/extern_python_varargs.py
+.. __: https://github.com/python-cffi/cffi/blob/main/demo/extern_python_varargs.py
 
 Each corresponding Python callback function is defined with the
 ``@ffi.def_extern()`` decorator.  Be careful when writing this

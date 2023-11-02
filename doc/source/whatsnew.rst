@@ -2,6 +2,30 @@
 What's New
 ======================
 
+
+v1.16.0
+=======
+
+* Add support for Python 3.12. With the removal of ``distutils`` from Python 3.12, projects
+  using CFFI features that depend on ``distutils`` at runtime must add a dependency on
+  ``setuptools`` to function under Python 3.12+. CFFI does not declare a runtime ``setuptools``
+  requirement to avoid an unnecessary dependency for projects that do not require it.
+* Drop support for end-of-life Python versions (2.7, 3.6, 3.7).
+* Add support for PEP517 builds; ``setuptools`` is now a required build dependency.
+* Declare ``python_requires`` metadata for Python 3.8+. This allows unsupported Pythons
+  to continue using previously released sdists and wheels.
+* Move project source under ``src/``; a more standard layout that also enables CI to more easily
+  catch packaging errors.
+
+v1.15.1
+=======
+
+* If you call `ffi.embedding_api()` but don't write any `extern "Python"`
+  function there, then the resulting C code would fail an assert.  Fixed.
+
+* Updated Windows/arm64 embedded libffi static lib to v3.4.2, and scripted
+  to ease future updates (thanks Niyas Sait!)
+
 v1.15.0
 =======
 

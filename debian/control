@@ -6,15 +6,18 @@ Uploaders: Stefano Rivera <stefanor@debian.org>
 Build-Depends:
  debhelper-compat (= 13),
  dh-python,
+ dh-sequence-python3,
+ dh-sequence-sphinxdoc <!nodoc>,
  libffi-dev,
+ pybuild-plugin-pyproject,
  python3-all-dev,
- python3-py,
- python3-pycparser,
- python3-pytest,
+ python3-py <!nocheck>,
+ python3-pycparser <!nocheck>,
+ python3-pytest <!nocheck>,
  python3-setuptools,
- python3-sphinx,
- virtualenv
-Standards-Version: 4.6.0
+ python3-sphinx <!nodoc>,
+ virtualenv <!nocheck>
+Standards-Version: 4.6.2
 Homepage: https://cffi.readthedocs.org/
 Vcs-Git: https://salsa.debian.org/python-team/packages/python-cffi.git
 Vcs-Browser: https://salsa.debian.org/python-team/packages/python-cffi

@@ -15,7 +15,12 @@ two sections delve deeper in the CFFI library.
 
 Make sure you have `cffi installed`__.
 
+You can find these and some other complete demos in the demo__ directory
+of the repository__.
+
 .. __: installation.html
+.. __: https://github.com/python-cffi/cffi/blob/main/demo
+.. __: https://github.com/python-cffi/cffi
 
 .. _out-of-line-api-level:
 .. _real-example:
