@@ -1,3 +1,10 @@
+python-cffi (1.16.0-2) unstable; urgency=medium
+
+  * Patch: Use virtualenv's bundled setuptools and wheel on Python 3.12.
+    (Closes: #1055337)
+
+ -- Stefano Rivera <stefanor@debian.org>  Sat, 04 Nov 2023 20:02:00 +0200
+
 python-cffi (1.16.0-1) unstable; urgency=medium
 
   * New upstream release.
