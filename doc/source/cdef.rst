@@ -80,7 +80,8 @@ In order of complexity:
 
 * Finally, you can (but don't have to) use CFFI's **Distutils** or
   **Setuptools integration** when writing a ``setup.py``.  For
-  Distutils (only in out-of-line API mode):
+  Distutils (only in out-of-line API mode; deprecated since
+  Python 3.10):
 
   .. code-block:: python
 
@@ -94,7 +95,7 @@ In order of complexity:
         ext_modules=[foo_build.ffibuilder.distutils_extension()],
     )
 
-  For Setuptools (out-of-line, but works in ABI or API mode;
+  For Setuptools (out-of-line only, but works in ABI or API mode;
   recommended):
 
   .. code-block:: python
@@ -380,6 +381,14 @@ Useful if you have special needs (e.g. you need the GNU extension
 automatically if the FFI object is garbage-collected (but you can still
 call ``ffi.dlclose()`` explicitly if needed).
 
+*New in version 1.17:* on Windows, ``ffi.dlopen(filename, flags=0)`` now
+passes the flags to ``LoadLibraryEx()``.  Moreover, if you use the
+default value of 0 but ``filename`` contains a slash or backslash
+character, it will instead use
+``LOAD_LIBRARY_SEARCH_DEFAULT_DIRS | LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR``.
+This ensures that dependent DLLs from the same path are also found.
+It is what ctypes does too.
+
 
 .. _set_source:
 
@@ -431,9 +440,9 @@ list of extra .c files compiled and linked together (the file
 first argument to ``sources``).  See the distutils documentations for
 `more information about the other arguments`__.
 
-.. __: http://docs.python.org/distutils/setupscript.html#library-options
-.. _distutils: http://docs.python.org/distutils/setupscript.html#describing-extension-modules
-.. _setuptools: https://pythonhosted.org/setuptools/setuptools.html
+.. __: https://setuptools.pypa.io/en/stable/userguide/ext_modules.html#building-extension-modules
+.. _distutils: http://docs.python.org/3.11/distutils/setupscript.html#describing-extension-modules
+.. _setuptools: https://setuptools.pypa.io/
 
 An extra keyword argument processed internally is
 ``source_extension``, defaulting to ``".c"``.  The file generated will
@@ -658,6 +667,12 @@ write).  If you choose, you can include this .py file pre-packaged in
 your own distributions: it is identical for any Python version (2 or
 3).
 
+*New in version 1.17.1:* ``filename`` can instead be a file-like object
+(such as a StringIO instance). The generated code will be written to this
+file-like object. However, if an error arises during generation, partial
+code may be written; it is the caller's responsibility to clean up
+if this occurs.
+
 **ffibuilder.emit_c_code(filename):** generate the given .c file (for API
 mode) without compiling it.  Can be used if you have some other method
 to compile it, e.g. if you want to integrate with some larger build
@@ -666,6 +681,12 @@ the .c file: unless the build script you used depends on the OS or
 platform, the .c file itself is generic (it would be exactly the same
 if produced on a different OS, with a different version of CPython, or
 with PyPy; it is done with generating the appropriate ``#ifdef``).
+
+*New in version 1.17.1:* ``filename`` can instead be a file-like object
+(such as a StringIO instance). The generated code will be written to this
+file-like object. However, if an error arises during generation, partial
+code may be written; it is the caller's responsibility to clean up
+if this occurs.
 
 **ffibuilder.distutils_extension(tmpdir='build', verbose=True):** for
 distutils-based ``setup.py`` files.  Calling this creates the .c file
