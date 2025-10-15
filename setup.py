@@ -195,7 +195,7 @@ Contact
 
 `Mailing list <https://groups.google.com/forum/#!forum/python-cffi>`_
 """,
-        version='1.16.0',
+        version='1.17.1',
         python_requires='>=3.8',
         packages=['cffi'] if cpython else [],
         package_dir={"": "src"},
@@ -239,6 +239,7 @@ Contact
             'Programming Language :: Python :: 3.10',
             'Programming Language :: Python :: 3.11',
             'Programming Language :: Python :: 3.12',
+            'Programming Language :: Python :: 3.13',
             'Programming Language :: Python :: Implementation :: CPython',
             'Programming Language :: Python :: Implementation :: PyPy',
             'License :: OSI Approved :: MIT License',

@@ -4,7 +4,7 @@ import sys, os, ctypes
 import cffi
 from testing.udir import udir
 from testing.support import *
-from cffi.recompiler import recompile
+from cffi.recompiler import recompile, NativeIO
 from cffi.cffi_opcode import PRIMITIVE_TO_INDEX
 
 SIZE_OF_INT   = ctypes.sizeof(ctypes.c_int)
@@ -1762,8 +1762,8 @@ class TestNewFFI1:
             "ptrdiff_t",
             "size_t",
             "ssize_t",
-            'float _Complex',
-            'double _Complex',
+            '_cffi_float_complex_t',
+            '_cffi_double_complex_t',
             ])
         for name in PRIMITIVE_TO_INDEX:
             x = ffi.sizeof(name)
@@ -1775,6 +1775,13 @@ class TestNewFFI1:
         c_file = str(udir.join('test_emit_c_code'))
         ffi.emit_c_code(c_file)
         assert os.path.isfile(c_file)
+
+    def test_emit_c_code_to_file_obj(self):
+        ffi = cffi.FFI()
+        ffi.set_source("foobar", "??")
+        fileobj = NativeIO()
+        ffi.emit_c_code(fileobj)
+        assert 'foobar' in fileobj.getvalue()
 
     def test_import_from_lib(self):
         ffi2 = cffi.FFI()
