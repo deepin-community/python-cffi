@@ -1,9 +1,3 @@
-python-cffi (1.17.1-4) unstable; urgency=medium
-
-  * Rebuild with LTO enabled (dpkg vendor feature optimize/lto).
-
- -- tunaichao <tunaichao@uniontech.com>  Fri, 11 Sep 2026 17:41:28 +0800
-
 python-cffi (1.17.1-3) unstable; urgency=medium
 
   * Patch: Don't call virtualenv with --wheel=bundle, wheel is no longer
